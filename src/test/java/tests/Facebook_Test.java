@@ -12,24 +12,29 @@ import utilities.ReusableMethods;
 public class Facebook_Test {
 
     Facebook_Page facebookPage = new Facebook_Page();
+    Actions actions = new Actions(Driver.getDriver());
 
     @Test
     public void login() {
 
         Driver.getDriver().get(ConfigReader.getProperty("facebook_url"));
-        facebookPage.cookiesAcceptedButton.click();
+        try {
+            facebookPage.cookiesAcceptedButton.click();
+        }catch (Exception e){
+            facebookPage.emailTextbox.sendKeys(ConfigReaderSecrets.getProperty("facebook_email"));
+            facebookPage.passwordTextbox.sendKeys(ConfigReaderSecrets.getProperty("facebook_password"));
+            facebookPage.loginButton.click();
+        }
 
-        facebookPage.emailTextbox.sendKeys(ConfigReaderSecrets.getProperty("facebook_email"));
-        facebookPage.passwordTextbox.sendKeys(ConfigReaderSecrets.getProperty("facebook_password"));
-        facebookPage.loginButton.click();
+
+
 //        Driver.getDriver().switchTo().alert().dismiss(); // TO DO Search how to handling this problem.
 
-        ReusableMethods.waitFor(3);
-        facebookPage.groupsMenuLink.click();
+//        ReusableMethods.waitFor(3);
+        actions.doubleClick(facebookPage.groupsMenuLink).perform();
+//        facebookPage.groupsMenuLink.click();
 
         ReusableMethods.waitFor(3);
-
-        Actions actions = new Actions(Driver.getDriver());
         actions.doubleClick(facebookPage.promotionsGroupMenuLink).perform();
 
 
