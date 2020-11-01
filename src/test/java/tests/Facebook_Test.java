@@ -21,24 +21,21 @@ public class Facebook_Test {
         try {
             facebookPage.cookiesAcceptedButton.click();
         }catch (Exception e){
-            facebookPage.emailTextbox.sendKeys(ConfigReaderSecrets.getProperty("facebook_email"));
-            facebookPage.passwordTextbox.sendKeys(ConfigReaderSecrets.getProperty("facebook_password"));
-            facebookPage.loginButton.click();
+            System.out.println("There is no cokies accaptance alert");
         }
-
-
+        facebookPage.emailTextbox.sendKeys(ConfigReaderSecrets.getProperty("facebook_email"));
+        facebookPage.passwordTextbox.sendKeys(ConfigReaderSecrets.getProperty("facebook_password"));
+        facebookPage.loginButton.click();
 
 //        Driver.getDriver().switchTo().alert().dismiss(); // TO DO Search how to handling this problem.
 
-//        ReusableMethods.waitFor(3);
         actions.doubleClick(facebookPage.groupsMenuLink).perform();
-//        facebookPage.groupsMenuLink.click();
 
         ReusableMethods.waitFor(3);
         actions.doubleClick(facebookPage.promotionsGroupMenuLink).perform();
 
+//        facebookPage.promotionCarts;
+
 
     }
-
-
 }
