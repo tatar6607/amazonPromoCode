@@ -32,7 +32,20 @@ public class Facebook_Page {
     @FindBy(xpath = "//span[contains(text(),'Promotions')]")
     public WebElement promotionsGroupMenuLink;
 
-    @FindBy(xpath = "//div[contains(text(),'promo code')]")
+//    @FindBy(xpath = "//div[contains(text(),'promo code')]")
+//    public List <WebElement> promotionCarts;
+
+//    @FindBy(xpath = "//div[@dir='auto']")
+//    public List <WebElement> promotionCarts;
+
+    @FindBy(xpath = "//div[@class='qzhwtbm6 knvmm38d']")
     public List <WebElement> promotionCarts;
+
+    @FindBy(xpath = "//div[.='See More']")
+    public WebElement seeMoreLink;
+
+
+
+
 
 }

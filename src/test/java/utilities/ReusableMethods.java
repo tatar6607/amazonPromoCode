@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
+//import java.util.function.Function;
 
 public class ReusableMethods {
     public static String getScreenshot(String name) throws IOException {
@@ -108,15 +108,24 @@ public class ReusableMethods {
         }
     }
     //======Fluent Wait====//
-    public static WebElement fluentWait(final WebElement webElement, int timeinsec) {
-        FluentWait<WebDriver> wait = new FluentWait<WebDriver>(Driver.getDriver())
-                .withTimeout(timeinsec, TimeUnit.SECONDS).pollingEvery(timeinsec, TimeUnit.SECONDS)
-                .ignoring(NoSuchElementException.class);
-        WebElement element = wait.until(new Function<WebDriver, WebElement>() {
-            public WebElement apply(WebDriver driver) {
-                return webElement;
-            }
-        });
-        return element;
+//    public static WebElement fluentWait(final WebElement webElement, int timeinsec) {
+//        FluentWait<WebDriver> wait = new FluentWait<WebDriver>(Driver.getDriver())
+//                .withTimeout(timeinsec, TimeUnit.SECONDS).pollingEvery(timeinsec, TimeUnit.SECONDS)
+//                .ignoring(NoSuchElementException.class);
+//        WebElement element = wait.until(new Function<WebDriver, WebElement>() {
+//            public WebElement apply(WebDriver driver) {
+//                return webElement;
+//            }
+//        });
+//        return element;
+//    }
+
+    public static void scrollByJs(int scrollLoop,int sec,int scrollHeight) {
+        JavascriptExecutor jse = (JavascriptExecutor) Driver.getDriver();
+        for (int i = 0; i < scrollLoop; i++) {
+            waitFor(sec);
+            //scrolling down
+            jse.executeScript("window.scrollBy(0," + scrollHeight+")");
+        }
     }
 }
