@@ -5,6 +5,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utilities.Driver;
 
+import java.util.List;
+
 public class Facebook_Page {
 
     public Facebook_Page() {
@@ -31,6 +33,6 @@ public class Facebook_Page {
     public WebElement promotionsGroupMenuLink;
 
     @FindBy(xpath = "//div[contains(text(),'promo code')]")
-    public WebElement promotionCarts;
+    public List <WebElement> promotionCarts;
 
 }
