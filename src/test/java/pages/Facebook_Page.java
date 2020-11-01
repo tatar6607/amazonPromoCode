@@ -11,6 +11,7 @@ public class Facebook_Page {
         PageFactory.initElements(Driver.getDriver(),this);
     }
 
+
     @FindBy(xpath = "//button[@title='Accept All']")
     public WebElement cookiesAcceptedButton;
 
@@ -29,9 +30,7 @@ public class Facebook_Page {
     @FindBy(xpath = "//span[contains(text(),'Promotions')]")
     public WebElement promotionsGroupMenuLink;
 
-
-
-
-
+    @FindBy(xpath = "//div[contains(text(),'promo code')]")
+    public WebElement promotionCarts;
 
 }
