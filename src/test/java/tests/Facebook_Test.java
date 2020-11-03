@@ -8,19 +8,19 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.SourceType;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.Facebook_Page;
-import utilities.ConfigReader;
-import utilities.ConfigReaderSecrets;
-import utilities.Driver;
-import utilities.ReusableMethods;
+import utilities.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class Facebook_Test {
@@ -32,8 +32,14 @@ public class Facebook_Test {
     List<String> promoCodesList = new ArrayList<>();
     List<String> promoLinksList = new ArrayList<>();
 
+
+    // EXCEL DATA STORE
+    ExcelUtil excelUtil;
+    String filePath = "src\\test\\resources\\codes_links.xlsx";
+    String sheetName = "codes";
+
     @Test
-    public void login() {
+    public void getPromoCodesAndLinks() {
 
         Driver.getDriver().get(ConfigReader.getProperty("facebook_url"));
         try {
@@ -49,7 +55,7 @@ public class Facebook_Test {
         jse.executeScript("arguments[0].click()", facebookPage.promotionsGroupMenuLink);
 
         int j = 1;
-        for (int i = 1; i < 100; i++) {
+        for (int i = 1; i < 70; i++) {
             ReusableMethods.waitFor(2);
             //scrolling down
             jse.executeScript("window.scrollBy(0,250)");
@@ -73,14 +79,16 @@ public class Facebook_Test {
                 int codeStart = codeIndex + 6;
 
                 String promoCode = stringPromeCode.substring(codeStart);
-                promoCode = promoCode.substring(0, promoCode.indexOf(" "));
+//                promoCode = promoCode.substring(0, promoCode.indexOf(" "));
+                promoCode = promoCode.substring(0, 8);
                 System.out.println("======== Promo kodumuz ====== : " + promoCode);
                 promoCodesList.add(promoCode);
 
                 int linkIndex = stringPromeCode.indexOf("https:");
 
                 String promoLink = stringPromeCode.substring(linkIndex);
-                promoLink = promoLink.substring(0,promoLink.indexOf(" "));
+//                promoLink = promoLink.substring(0,promoLink.indexOf(" "));
+                promoLink = promoLink.substring(0,23);
                 System.out.println("======== Promo linkimiz  ====== : " + promoLink);
                 promoLinksList.add(promoLink);
 
@@ -90,13 +98,15 @@ public class Facebook_Test {
                 int codeIndex = stringPromeCode.indexOf("CODE:");
                 int codeStart = codeIndex + 6;
                 String promoCode = stringPromeCode.substring(codeStart);
-                promoCode = promoCode.substring(0, promoCode.indexOf(" "));
+//                promoCode = promoCode.substring(0, promoCode.indexOf(" "));
+                promoCode = promoCode.substring(0, 8);
                 System.out.println("======== Promo kodumuz ====== : " + promoCode);
                 promoCodesList.add(promoCode);
 
                 int linkIndex = stringPromeCode.indexOf("https:");
                 String promoLink = stringPromeCode.substring(linkIndex);
-                promoLink = promoLink.substring(0,promoLink.indexOf(" "));
+//                promoLink = promoLink.substring(0,promoLink.indexOf(" "));
+                promoLink = promoLink.substring(0,23);
                 System.out.println("======== Promo linkimiz  ====== : " + promoLink);
                 promoLinksList.add(promoLink);
 
@@ -109,7 +119,20 @@ public class Facebook_Test {
 
     }
 
-    @AfterMethod
+    @Test(dependsOnMethods = "getPromoCodesAndLinks")
+    public void writeCodesData() {
+        excelUtil = new ExcelUtil(filePath, sheetName);
+        int row = 1;
+        int j = 0;
+        for (String code : promoCodesList) {
+            excelUtil.setCellData(code , "PROMO CODE", row);
+            excelUtil.setCellData( promoLinksList.get(j), "AMAZON LINK", row);
+            row++;
+            j++;
+        }
+    }
+
+    @AfterClass
     public void tearDown() {
         Driver.closeDriver();
     }
