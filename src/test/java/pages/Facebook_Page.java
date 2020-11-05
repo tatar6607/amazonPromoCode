@@ -26,6 +26,9 @@ public class Facebook_Page {
     @FindBy(xpath = "//button[@name='login']")
     public WebElement loginButton;
 
+    @FindBy(xpath =  "//a[.='Return home']")
+    public  WebElement returnHomeButton;
+
     @FindBy(xpath = "(//span[.='Groups'])[2]")
     public WebElement groupsMenuLink;
 

@@ -6,6 +6,7 @@ import org.openqa.selenium.support.PageFactory;
 import utilities.Driver;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Amazon_Page {
     public Amazon_Page() {
@@ -44,5 +45,9 @@ public class Amazon_Page {
 
 //    @FindBy(id = "subtotals-marketplace-table")
 //    public ArrayList<WebElement> amazonOrdersTotal;
+
+//    @FindBy(xpath = "//form[@id='activeCartViewForm']/input[@value='Delete']")
+    @FindBy(xpath = "//form[@id='activeCartViewForm']//span[@data-action='delete']//input")
+    public List<WebElement> amazonCartItemDeleteButtonList;
 
 }

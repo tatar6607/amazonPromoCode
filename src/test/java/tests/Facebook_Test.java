@@ -29,8 +29,8 @@ public class Facebook_Test {
     Actions actions = new Actions(Driver.getDriver());
     WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
     JavascriptExecutor jse = (JavascriptExecutor) Driver.getDriver();
-    List<String> promoCodesList = new ArrayList<>();
-    List<String> promoLinksList = new ArrayList<>();
+    public List<String> promoCodesList = new ArrayList<>();
+    public List<String> promoLinksList = new ArrayList<>();
 
 
     // EXCEL DATA STORE
@@ -38,9 +38,7 @@ public class Facebook_Test {
     String filePath = "src\\test\\resources\\codes_links.xlsx";
     String sheetName = "codes";
 
-    @Test
-    public void getPromoCodesAndLinks() {
-
+    public void loginFacebook() {
         Driver.getDriver().get(ConfigReader.getProperty("facebook_url"));
         try {
             facebookPage.cookiesAcceptedButton.click();
@@ -50,16 +48,35 @@ public class Facebook_Test {
         facebookPage.emailTextbox.sendKeys(ConfigReaderSecrets.getProperty("facebook_email"));
         facebookPage.passwordTextbox.sendKeys(ConfigReaderSecrets.getProperty("facebook_password"));
         facebookPage.loginButton.click();
+    }
+
+    @Test
+    public void getPromoCodesAndLinks() {
+        loginFacebook();
+
+        try {
+            if(facebookPage.returnHomeButton.isDisplayed()){
+                loginFacebook();
+            }
+        }catch (Exception e){
+
+        }
 
         jse.executeScript("arguments[0].click()", facebookPage.groupsMenuLink);
         jse.executeScript("arguments[0].click()", facebookPage.promotionsGroupMenuLink);
 
+        //Trying to Zoom Out
+//        for(int i=0; i<5; i++){
+//            Driver.getDriver().findElement(By.tagName("html")).sendKeys(Keys.chord(Keys.CONTROL,Keys.SUBTRACT));
+//        }
+
+        jse.executeScript("document.body.style.zoom = '0.75'");
         int j = 1;
-        for (int i = 1; i < 70; i++) {
-            ReusableMethods.waitFor(2);
+        for (int i = 1; i < 500; i++) {
+            ReusableMethods.waitFor(3);
             //scrolling down
             jse.executeScript("window.scrollBy(0,250)");
-            ReusableMethods.waitFor(2);
+            ReusableMethods.waitFor(3);
             WebElement promoCodeElement = Driver.getDriver().findElement(By.xpath("(//div[@class='qzhwtbm6 knvmm38d'])[" + i + "]"));
             String stringPromeCode = promoCodeElement.getText();
             if (stringPromeCode.contains("See More")) {
@@ -68,9 +85,9 @@ public class Facebook_Test {
                 WebElement promoCodeElementExtend = Driver.getDriver().findElement(By.xpath("(//div[@class='qzhwtbm6 knvmm38d'])[" + i + "]"));
                 stringPromeCode = promoCodeElementExtend.getText();
             }
-//            System.out.println("====================================");
-//            System.out.println(stringPromeCode);
-//            System.out.println("====================================");
+            System.out.println("====================================");
+            System.out.println(stringPromeCode);
+            System.out.println("====================================");
             // TODO: REGEX USING
 
             if (stringPromeCode.contains("code:")) {
@@ -87,6 +104,7 @@ public class Facebook_Test {
                 int linkIndex = stringPromeCode.indexOf("https:");
 
                 String promoLink = stringPromeCode.substring(linkIndex);
+                System.out.println(promoLink);
 //                promoLink = promoLink.substring(0,promoLink.indexOf(" "));
                 promoLink = promoLink.substring(0,23);
                 System.out.println("======== Promo linkimiz  ====== : " + promoLink);
@@ -106,6 +124,7 @@ public class Facebook_Test {
                 int linkIndex = stringPromeCode.indexOf("https:");
                 String promoLink = stringPromeCode.substring(linkIndex);
 //                promoLink = promoLink.substring(0,promoLink.indexOf(" "));
+                System.out.println(promoLink);
                 promoLink = promoLink.substring(0,23);
                 System.out.println("======== Promo linkimiz  ====== : " + promoLink);
                 promoLinksList.add(promoLink);
@@ -134,7 +153,7 @@ public class Facebook_Test {
 
     @AfterClass
     public void tearDown() {
-        Driver.closeDriver();
+//        Driver.closeDriver();
     }
 
 
