@@ -31,9 +31,6 @@
                     <argLine>-XX:MaxPermSize=256m</argLine>
                     <argLine>-Dfile.encoding=UTF-8</argLine>
                     <useFile>false</useFile>
-                    <includes>
-                        <include>**/runners/*TestRunner*.java</include>
-                    </includes>
                     <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
             </plugin>
