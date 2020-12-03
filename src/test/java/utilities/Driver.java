@@ -48,8 +48,13 @@ public class Driver {
                     driver = new SafariDriver();
                     break;
                 case "headless-chrome":
-                    WebDriverManager.chromedriver().setup();
-                    driver = new ChromeDriver(new ChromeOptions().setHeadless(true));
+                     WebDriverManager.chromedriver().setup();
+                     ChromeOptions opt = new ChromeOptions();
+                        opt.setHeadless(true);
+                        opt.addArguments("--headless");
+                        opt.addArguments("--no-sandbox");
+                        opt.addArguments("--disable-dev-shm-usage");
+                      driver = new ChromeDriver(opt);
                     break;
                 case "opera":
                     WebDriverManager.operadriver().setup();
